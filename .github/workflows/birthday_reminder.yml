@@ -40,7 +40,7 @@ jobs:
           subject: "提前提醒 ${{ steps.birthdays.outputs.ADVANCE_NAMES }} 的生日即将到来！"
           html_body: |
             <h1>🎉 生日即将到来！</h1>
-            <p>以下亲友的生日将在未来${{ steps.birthdays.outputs.REMINDER_DAYS }}内到来：<strong>${{ steps.birthdays.outputs.ADVANCE_NAMES }}</strong></p>
+            <p>以下亲友的生日将在未来${{ steps.birthdays.outputs.REMINDER_DAYS }}天内到来：<strong>${{ steps.birthdays.outputs.ADVANCE_NAMES }}</strong></p>
             <p>请准备好送上你最真挚的祝福。</p>
           to: ${{ secrets.TO_EMAIL }}
           from: GitHub Actions
