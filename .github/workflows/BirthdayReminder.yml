@@ -44,10 +44,10 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: Reminder Birthday!
+          subject: ${{ env.name }} 生日提醒!
           body: |
-            <h1>Reminder: It's ${{ env.name }}'s Birthday!</h1>
-            <p>Don't forget to wish them a wonderful day filled with joy!</p>
+            <h1>温馨提示: 今天是 ${{ env.name }}的生日!</h1>
+            <p>不要忘记给他带去你的生日快乐祝福!</p>
           to: ${{ env.recipient }}
           from: GitHub Actions
           content_type: text/html
