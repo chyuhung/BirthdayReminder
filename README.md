@@ -1,4 +1,3 @@
-```markdown
 # BirthdayReminder
 
 ## 简介
@@ -44,7 +43,6 @@
        "birthday": "2023-10-15"
      }
    ]
-   ```
 
 3. 在 GitHub 仓库设置中添加以下 Secrets：
    - **EMAIL**: 您的邮件地址。
