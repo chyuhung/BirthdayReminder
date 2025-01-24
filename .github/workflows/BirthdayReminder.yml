@@ -29,7 +29,7 @@ jobs:
         run: |
           echo 'import json
           from datetime import datetime, timedelta, timezone
-          from lunarcalendar import Lunar
+          from lunarcalendar import Converter
 
           # 获取当前时间
           today = datetime.now(timezone.utc).date()
@@ -47,8 +47,9 @@ jobs:
 
               # 解析生日
               if lunar:
-                  lunar_date = Lunar.from_solar(today.year, int(birthday.split("-")[1]), int(birthday.split("-")[2]))
-                  birthday_date = lunar_date.to_solar().date()
+                  # 假设使用生日的阳历年份和月日来创建农历对象
+                  lunar_date = Converter().solar_to_lunar(today.year, int(birthday.split("-")[1]), int(birthday.split("-")[2]))
+                  birthday_date = datetime(lunar_date.lunar_year, lunar_date.lunar_month, lunar_date.lunar_day).date()
               else:
                   birthday_date = datetime.strptime(birthday, "%Y-%m-%d").date()
 
