@@ -46,8 +46,10 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: ${{ env.name }} 生日提醒!
           body: |
-            <h1>温馨提示: 今天是 ${{ env.name }}的生日!</h1>
-            <p>不要忘记给Ta带去你的诚挚生日快乐祝福!</p>
+            <h1>🎉 祝福的时刻又来了！</h1>
+            <p>今天是 <strong>${{ env.name }}</strong> 的生日！</p>
+            <p>在这个特别的日子里，别忘了送上你最真挚的祝福，让他们感受到你的心意与温暖！</p>
+            <p>愿他们的生日充满快乐、爱与惊喜！</p>
           to: ${{ env.recipient }}
           from: GitHub Actions
           content_type: text/html
