@@ -55,6 +55,8 @@
    - **EMAIL_PASSWORD**: 您的邮件密码或应用程序密码。
    - **TO_EMAIL**: 收件人的邮箱地址（可以是多个，需用逗号分隔）。
 
+   *Tips: 推荐使用腾讯企业邮箱（使用密码而非授权码，避免过期无法发送邮件）。*
+
 ### 工作流配置
 
 将工作流配置添加到您的 `.github/workflows/birthday_reminder.yml` 文件中。
