@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import datetime, timedelta, timezone
 from zhdate import ZhDate
 
@@ -14,26 +15,28 @@ def check_birthdays():
 
     remind_dates = [today + timedelta(days=i) for i in range(reminder_days + 1)]
 
+    need_to_send_email = False
+    name_to_send = ""
+
     for entry in birthdays:
         name = entry["name"]
         birthday = entry["birthday"]
         lunar = entry.get("lunar", True)
 
-        # 解析生日
         if lunar:
-            # 将农历日期转换为公历日期
             year, month, day = map(int, birthday.split("-"))
-            solar_date = ZhDate(today.year, month, day).to_datetime()
-            birthday_date = solar_date.date()
+            solar_date = ZhDate(today.year, month, day).to_datetime().date()
         else:
-            birthday_date = datetime.strptime(birthday, "%Y-%m-%d").date()
+            solar_date = datetime.strptime(birthday, "%Y-%m-%d").date()
 
-        # 检查是否需要提醒
-        if birthday_date in remind_dates:
-            print(f"发送邮件给 {name}")
-            # 使用 GitHub Actions 输出命令设置环境变量
-            print(f"::set-output name=SEND_EMAIL::true")
-            print(f"::set-output name=NAME::{name}")
+        if solar_date in remind_dates:
+            need_to_send_email = True
+            name_to_send = name
+
+    if need_to_send_email:
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            print(f'SEND_EMAIL=true', file=fh)
+            print(f'NAME={name_to_send}', file=fh)
 
 if __name__ == "__main__":
     check_birthdays()
