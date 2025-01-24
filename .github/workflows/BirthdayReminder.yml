@@ -1,7 +1,7 @@
 name: BirthdayReminder
 
 on:
-  workflow_dispatch: # Putting here is also fine!!
+  workflow_dispatch:  # 手动触发工作流
   push:
     branches:
       - main  # 指定监控的分支
@@ -18,24 +18,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Install msmtp
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y msmtp
-
-      - name: Setup msmtp
-        run: |
-          echo "defaults" > ~/.msmtprc
-          echo "account default" >> ~/.msmtprc
-          echo "host smtp.exmail.qq.com" >> ~/.msmtprc
-          echo "port 465" >> ~/.msmtprc
-          echo "auth on" >> ~/.msmtprc
-          echo "user ${{ secrets.EMAIL }}" >> ~/.msmtprc
-          echo "password ${{ secrets.EMAIL_PASSWORD }}" >> ~/.msmtprc
-          echo "from ${{ secrets.EMAIL }}" >> ~/.msmtprc
-          echo "logfile ~/.msmtp.log" >> ~/.msmtprc
-          chmod 600 ~/.msmtprc
 
       - name: Check for birthdays
         id: check_birthdays
@@ -54,8 +36,18 @@ jobs:
             fi
           done
 
-      - name: Send email
+      - name: 'Send mail'
         if: env.send_email == 'true'
-        run: |
-          echo "Subject: Happy Birthday!" | msmtp ${{ env.recipient }}
-          echo "Happy Birthday, ${{ env.recipient }}!" | msmtp ${{ env.recipient }}
+        uses: dawidd6/action-send-mail@master
+        with:
+          serveraddress: smtp.exmail.qq.com
+          serverport: 465
+          username: ${{ secrets.EMAIL }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Happy Birthday!
+          body: |
+            <h1>Happy Birthday, ${{ env.recipient }}!</h1>
+            <p>Wishing you a wonderful day filled with joy!</p>
+          to: ${{ env.recipient }}
+          from: GitHub Actions
+          content_type: text/html
