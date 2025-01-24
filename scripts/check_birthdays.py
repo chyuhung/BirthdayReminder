@@ -31,7 +31,6 @@ def check_birthdays():
             # 输出到环境变量以供GitHub Actions使用
             print(f"name={name}", flush=True)  # 将名字保存到环境变量
             print(f"send_email=true", flush=True)  # 设置发送邮件标志
-            print(f"recipient={entry['email']}", flush=True)  # 假设每条生日记录都有'email'字段作为收件人
             
 if __name__ == "__main__":
     check_birthdays()
