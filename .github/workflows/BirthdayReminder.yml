@@ -46,8 +46,8 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: Happy Birthday!
           body: |
-            <h1>Happy Birthday, ${{ env.recipient }}!</h1>
-            <p>Wishing you a wonderful day filled with joy!</p>
+            <h1>Reminder: It's $name's Birthday!</h1>
+            <p>Don't forget to wish them a wonderful day filled with joy!</p>
           to: ${{ env.recipient }}
           from: GitHub Actions
           content_type: text/html
