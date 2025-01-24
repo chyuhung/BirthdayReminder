@@ -22,9 +22,9 @@ def check_birthdays():
         # 解析生日
         if lunar:
             # 将农历日期转换为公历日期
-            lunar_date = Lunar.fromYmd(*[int(x) for x in birthday.split("-")])
-            solar_date = Converter.LunarToSolar(lunar_date)
-            birthday_date = solar_date.to_date()
+            lunar_date = Lunar(today.year, int(birthday.split("-")[1]), int(birthday.split("-")[2]), False)
+            solar_date = Converter().lunar_to_solar(lunar_date)
+            birthday_date = datetime(solar_date.year, solar_date.month, solar_date.day).date()
         else:
             birthday_date = datetime.strptime(birthday, "%Y-%m-%d").date()
 
