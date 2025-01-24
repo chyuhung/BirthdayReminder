@@ -37,10 +37,10 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "提前提醒 ${{ steps.birthdays.outputs.ADVANCE_NAMES }} 的生日即将到来！"
+          subject: "你的亲友 ${{ steps.birthdays.outputs.ADVANCE_NAMES }} 的生日即将到来！"
           html_body: |
             <h1>🎉 生日即将到来！</h1>
-            <p>以下亲友的生日将在未来${{ steps.birthdays.outputs.REMINDER_DAYS }}天内到来：<strong>${{ steps.birthdays.outputs.ADVANCE_NAMES }}</strong></p>
+            <p>以下亲友的生日将在未来几天内到来：<strong>${{ steps.birthdays.outputs.ADVANCE_NAMES }}</strong></p>
             <p>请准备好送上你最真挚的祝福。</p>
           to: ${{ secrets.TO_EMAIL }}
           from: GitHub Actions
@@ -53,9 +53,9 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "今天是 ${{ steps.birthdays.outputs.TODAY_NAMES }} 的生日！"
+          subject: "[生日提醒] 今天是 ${{ steps.birthdays.outputs.TODAY_NAMES }} 的生日！"
           html_body: |
-            <h1>🎉 祝福的时刻又来了！</h1>
+            <h1>🎉 祝福的时刻来了！</h1>
             <p>今天是 <strong>${{ steps.birthdays.outputs.TODAY_NAMES }}</strong> 的生日！</p>
             <p>在这个特别的日子里，别忘了送上你最真挚的祝福，让他们感受到你的心意与温暖！</p>
             <p>愿他们的生日充满快乐、爱与惊喜！</p>

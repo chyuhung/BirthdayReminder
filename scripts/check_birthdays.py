@@ -43,7 +43,6 @@ def check_birthdays():
                 advance_names.append(name)
 
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-        print(f'REMINDER_DAYS={reminder_days}', file=fh)
         if advance_names:
             print(f'SEND_ADVANCE_EMAIL=true', file=fh)
             print(f'ADVANCE_NAMES={"、".join(advance_names)}', file=fh)
