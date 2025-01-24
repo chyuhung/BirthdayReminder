@@ -23,7 +23,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install python3 python3-pip -y
-          pip3 install lunarcalendar
+          pip3 install zhdate
 
       - name: Run birthday check script
         id: birthdays

@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timedelta, timezone
-from lunarcalendar import Converter, Lunar
+from zhdate import ZhDate
 
 def check_birthdays():
     # 获取当前时间
@@ -14,8 +14,6 @@ def check_birthdays():
 
     remind_dates = [today + timedelta(days=i) for i in range(reminder_days + 1)]
 
-    converter = Converter()
-
     for entry in birthdays:
         name = entry["name"]
         birthday = entry["birthday"]
@@ -24,9 +22,9 @@ def check_birthdays():
         # 解析生日
         if lunar:
             # 将农历日期转换为公历日期
-            lunar_date = Lunar(year=today.year, month=int(birthday.split("-")[1]), day=int(birthday.split("-")[2]), isleap=False)
-            solar_date = converter.lunar_to_solar(lunar_date)
-            birthday_date = datetime(solar_date.year, solar_date.month, solar_date.day).date()
+            year, month, day = map(int, birthday.split("-"))
+            solar_date = ZhDate(today.year, month, day).to_datetime()
+            birthday_date = solar_date.date()
         else:
             birthday_date = datetime.strptime(birthday, "%Y-%m-%d").date()
 
@@ -36,6 +34,6 @@ def check_birthdays():
             # 使用 GitHub Actions 输出命令设置环境变量
             print(f"::set-output name=SEND_EMAIL::true")
             print(f"::set-output name=NAME::{name}")
-            
+
 if __name__ == "__main__":
     check_birthdays()
