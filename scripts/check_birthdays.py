@@ -31,9 +31,9 @@ def check_birthdays():
         # 检查是否需要提醒
         if birthday_date in remind_dates:
             print(f"发送邮件给 {name}")
-            # 输出到环境变量以供GitHub Actions使用
-            os.environ['SEND_EMAIL'] = 'true'
-            os.environ['NAME'] = name
+            # 使用 GitHub Actions 输出命令设置环境变量
+            print(f"::set-output name=SEND_EMAIL::true")
+            print(f"::set-output name=NAME::{name}")
             
 if __name__ == "__main__":
     check_birthdays()
