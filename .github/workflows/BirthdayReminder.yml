@@ -30,7 +30,7 @@ jobs:
             name=$(echo "${row}" | jq -r '.name')
             birthday=$(echo "${row}" | jq -r '.birthday')
             if [ "$today" == "$birthday" ]; then
-              echo "$name"
+              echo "name=$name" >> $GITHUB_ENV
               echo "send_email=true" >> $GITHUB_ENV
               echo "recipient=${{ secrets.TO_EMAIL }}" >> $GITHUB_ENV
             fi
@@ -44,9 +44,9 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: Happy Birthday!
+          subject: Reminder Birthday!
           body: |
-            <h1>Reminder: It's $name's Birthday!</h1>
+            <h1>Reminder: It's ${{ env.name }}'s Birthday!</h1>
             <p>Don't forget to wish them a wonderful day filled with joy!</p>
           to: ${{ env.recipient }}
           from: GitHub Actions
