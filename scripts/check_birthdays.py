@@ -5,13 +5,14 @@ from lunarcalendar import Converter, Solar, Lunar
 def check_birthdays():
     # 获取当前时间
     today = datetime.now(timezone.utc).date()
-    # 提前提醒天数
-    reminder_days = entry["reminder_days"]
-    remind_dates = [today + timedelta(days=i) for i in range(reminder_days + 1)]
-
-    # 读取生日数据
+    
+    # 读取生日数据和提醒天数
     with open("birthdays.json") as f:
-        birthdays = json.load(f)
+        config = json.load(f)
+        reminder_days = config["reminder_days"]
+        birthdays = config["birthdays"]
+
+    remind_dates = [today + timedelta(days=i) for i in range(reminder_days + 1)]
 
     for entry in birthdays:
         name = entry["name"]
