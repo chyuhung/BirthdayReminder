@@ -42,6 +42,6 @@ jobs:
             <p>今天是 <strong>${{ env.name }}</strong> 的生日！</p>
             <p>在这个特别的日子里，别忘了送上你最真挚的祝福，让他们感受到你的心意与温暖！</p>
             <p>愿他们的生日充满快乐、爱与惊喜！</p>
-          to: ${{ env.recipient }}
+          to: ${{ secrets.TO_EMAIL }}
           from: GitHub Actions
           content_type: text/html
