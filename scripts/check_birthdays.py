@@ -5,7 +5,8 @@ from lunarcalendar import Converter, Solar, Lunar
 def check_birthdays():
     # 获取当前时间
     today = datetime.now(timezone.utc).date()
-    reminder_days = 3  # 提前提醒天数
+    # 提前提醒天数
+    reminder_days = entry["reminder_days"]
     remind_dates = [today + timedelta(days=i) for i in range(reminder_days + 1)]
 
     # 读取生日数据
