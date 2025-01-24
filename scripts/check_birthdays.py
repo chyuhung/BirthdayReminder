@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timedelta, timezone
-from lunarcalendar import Converter, Solar, Lunar
+from lunarcalendar import Lunar
 
 def check_birthdays():
     # 获取当前时间
@@ -23,7 +23,7 @@ def check_birthdays():
         if lunar:
             # 将农历日期转换为公历日期
             lunar_date = Lunar(today.year, int(birthday.split("-")[1]), int(birthday.split("-")[2]), False)
-            solar_date = Converter().lunar_to_solar(lunar_date)
+            solar_date = lunar_date.to_solar()
             birthday_date = datetime(solar_date.year, solar_date.month, solar_date.day).date()
         else:
             birthday_date = datetime.strptime(birthday, "%Y-%m-%d").date()
