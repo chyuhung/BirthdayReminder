@@ -47,7 +47,7 @@ jobs:
           subject: ${{ env.name }} 生日提醒!
           body: |
             <h1>温馨提示: 今天是 ${{ env.name }}的生日!</h1>
-            <p>不要忘记给他带去你的生日快乐祝福!</p>
+            <p>不要忘记给Ta带去你的诚挚生日快乐祝福!</p>
           to: ${{ env.recipient }}
           from: GitHub Actions
           content_type: text/html
