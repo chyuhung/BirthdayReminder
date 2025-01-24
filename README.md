@@ -1,3 +1,4 @@
+```markdown
 # BirthdayReminder
 
 ## 简介
@@ -52,10 +53,21 @@
 
 ### 工作流配置
 
-将工作流配置添加到您的 `.github/workflows/BirthdayReminder.yml` 文件中。
+将工作流配置添加到您的 `.github/workflows/birthday_reminder.yml` 文件中。
+
+### 核心逻辑
+
+核心逻辑代码保存在 `scripts/check_birthdays.py` 文件中，负责读取生日数据并检查是否需要发送邮件。
 
 ### 运行工作流
 
 1. 提交更改并推送到 `main` 分支。
 2. 在 GitHub Actions 页面上监控工作流的运行状态。
 3. 在生日当天，您将收到邮件提醒。
+```
+
+### 说明
+
+- **项目结构**：README 现在包含了对项目结构的描述，特别是核心逻辑放置在 `scripts/` 目录中的说明。
+- **工作流配置**：更新为新的工作流文件名 `birthday_reminder.yml`。
+- **核心逻辑**：新增了关于核心逻辑代码的位置和作用的描述，以便用户了解代码组织方式。
