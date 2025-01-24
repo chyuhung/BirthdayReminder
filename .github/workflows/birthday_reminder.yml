@@ -1,0 +1,47 @@
+name: BirthdayReminder
+
+on:
+  workflow_dispatch:  # 手动触发工作流
+  push:
+    branches:
+      - main  # 指定监控的分支
+  pull_request:
+    branches:
+      - main  # 监控对 main 分支的 PR
+  schedule:
+    - cron: '20 9 * * *'  # UTC时间每天上午9点20触发
+
+jobs:
+  send_birthday_email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install python3 python3-pip -y
+          pip3 install lunarcalendar
+
+      - name: Run birthday check script
+        run: python3 scripts/check_birthdays.py
+
+      - name: 'Send mail'
+        if: env.send_email == 'true'
+        uses: dawidd6/action-send-mail@master
+        with:
+          server_address: smtp.exmail.qq.com
+          server_port: 465
+          username: ${{ secrets.EMAIL }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: ${{ env.name }} 生日提醒!
+          body: |
+            <h1>🎉 祝福的时刻又来了！</h1>
+            <p>今天是 <strong>${{ env.name }}</strong> 的生日！</p>
+            <p>在这个特别的日子里，别忘了送上你最真挚的祝福，让他们感受到你的心意与温暖！</p>
+            <p>愿他们的生日充满快乐、爱与惊喜！</p>
+          to: ${{ env.recipient }}
+          from: GitHub Actions
+          content_type: text/html
