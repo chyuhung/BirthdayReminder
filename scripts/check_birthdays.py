@@ -14,9 +14,8 @@ def check_birthdays():
         birthdays = config["birthdays"]
 
     remind_dates = [today + timedelta(days=i) for i in range(reminder_days + 1)]
-
-    need_to_send_email = False
-    name_to_send = ""
+    advance_names = []
+    today_names = []
 
     for entry in birthdays:
         name = entry["name"]
@@ -30,13 +29,19 @@ def check_birthdays():
             solar_date = datetime.strptime(birthday, "%Y-%m-%d").date()
 
         if solar_date in remind_dates:
-            need_to_send_email = True
-            name_to_send = name
+            if solar_date == today:
+                today_names.append(name)
+            else:
+                advance_names.append(name)
 
-    if need_to_send_email:
-        with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-            print(f'SEND_EMAIL=true', file=fh)
-            print(f'NAME={name_to_send}', file=fh)
+    # 设置输出
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        if advance_names:
+            print(f'SEND_ADVANCE_EMAIL=true', file=fh)
+            print(f'ADVANCE_NAMES={"、".join(advance_names)}', file=fh)
+        if today_names:
+            print(f'SEND_TODAY_EMAIL=true', file=fh)
+            print(f'TODAY_NAMES={"、".join(today_names)}', file=fh)
 
 if __name__ == "__main__":
     check_birthdays()
