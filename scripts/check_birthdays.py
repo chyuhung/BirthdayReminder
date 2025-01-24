@@ -17,22 +17,23 @@ def check_birthdays():
     for entry in birthdays:
         name = entry["name"]
         birthday = entry["birthday"]
-        lunar = entry.get("lunar", False)
+        lunar = entry.get("lunar", True)
 
         # 解析生日
         if lunar:
-            solar_date = Solar(today.year, int(birthday.split("-")[1]), int(birthday.split("-")[2]))
-            lunar_date = Converter.Solar2Lunar(solar_date)
-            birthday_date = Converter.Lunar2Solar(Lunar(today.year, lunar_date.month, lunar_date.day, lunar_date.isleap)).to_date()
+            # 将农历日期转换为公历日期
+            lunar_date = Lunar.fromYmd(*[int(x) for x in birthday.split("-")])
+            solar_date = Converter.LunarToSolar(lunar_date)
+            birthday_date = solar_date.to_date()
         else:
             birthday_date = datetime.strptime(birthday, "%Y-%m-%d").date()
 
-        # 检查是否是今天或提前几天
+        # 检查是否需要提醒
         if birthday_date in remind_dates:
-            print(f"Sending email for {name}")
+            print(f"发送邮件给 {name}")
             # 输出到环境变量以供GitHub Actions使用
-            print(f"name={name}", flush=True)  # 将名字保存到环境变量
-            print(f"send_email=true", flush=True)  # 设置发送邮件标志
+            os.environ['SEND_EMAIL'] = 'true'
+            os.environ['NAME'] = name
             
 if __name__ == "__main__":
     check_birthdays()
