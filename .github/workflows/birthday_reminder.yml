@@ -1,4 +1,4 @@
-name: Birthday Reminder
+name: BirthdayReminder
 
 on:
   schedule:
