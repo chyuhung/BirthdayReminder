@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timedelta, timezone
-from lunarcalendar import Converter
+from lunarcalendar import Converter, Solar, Lunar
 
 def check_birthdays():
     # 获取当前时间
@@ -19,17 +19,19 @@ def check_birthdays():
 
         # 解析生日
         if lunar:
-            lunar_date = Converter().solar_to_lunar(today.year, int(birthday.split("-")[1]), int(birthday.split("-")[2]))
-            birthday_date = datetime(lunar_date.lunar_year, lunar_date.lunar_month, lunar_date.lunar_day).date()
+            solar_date = Solar(today.year, int(birthday.split("-")[1]), int(birthday.split("-")[2]))
+            lunar_date = Converter.Solar2Lunar(solar_date)
+            birthday_date = Converter.Lunar2Solar(Lunar(today.year, lunar_date.month, lunar_date.day, lunar_date.isleap)).to_date()
         else:
             birthday_date = datetime.strptime(birthday, "%Y-%m-%d").date()
 
         # 检查是否是今天或提前几天
         if birthday_date in remind_dates:
             print(f"Sending email for {name}")
-            print(f"name={name}" >> "$GITHUB_ENV")  # 将名字保存到环境变量
-            print("send_email=true" >> "$GITHUB_ENV")  # 设置发送邮件标志
-            print(f"recipient=${{ secrets.TO_EMAIL }}" >> "$GITHUB_ENV")  # 收件人
-
+            # 输出到环境变量以供GitHub Actions使用
+            print(f"name={name}", flush=True)  # 将名字保存到环境变量
+            print(f"send_email=true", flush=True)  # 设置发送邮件标志
+            print(f"recipient={entry['email']}", flush=True)  # 假设每条生日记录都有'email'字段作为收件人
+            
 if __name__ == "__main__":
     check_birthdays()
