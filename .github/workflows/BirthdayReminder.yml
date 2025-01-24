@@ -19,22 +19,45 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install python3 python3-pip -y
+          pip3 install lunarcalendar
+
       - name: Check for birthdays
         id: check_birthdays
         run: |
-          birthdays=$(cat birthdays.json)
-          today=$(date +'%Y-%m-%d')
-          echo "Birthdays today:"
+          import json
+          from datetime import datetime, timedelta
+          from lunarcalendar import Converter
 
-          for row in $(echo "${birthdays}" | jq -c '.[]'); do
-            name=$(echo "${row}" | jq -r '.name')
-            birthday=$(echo "${row}" | jq -r '.birthday')
-            if [ "$today" == "$birthday" ]; then
-              echo "name=$name" >> $GITHUB_ENV
-              echo "send_email=true" >> $GITHUB_ENV
-              echo "recipient=${{ secrets.TO_EMAIL }}" >> $GITHUB_ENV
-            fi
-          done
+          # 读取生日数据
+          with open('birthdays.json') as f:
+              birthdays = json.load(f)
+
+          today = datetime.utcnow().date()
+          reminder_days = 3  # 提前提醒天数
+          remind_dates = [today + timedelta(days=i) for i in range(reminder_days + 1)]  # 包括今天
+
+          for entry in birthdays:
+              name = entry['name']
+              birthday = entry['birthday']
+              lunar = entry.get('lunar', False)  # 获取是否为农历生日
+
+              # 解析生日
+              if lunar:
+                  lunar_date = Converter().solar_to_lunar(today.year, int(birthday.split('-')[1]), int(birthday.split('-')[2]))
+                  birthday_date = datetime(year=lunar_date.lunar_year, month=lunar_date.lunar_month, day=lunar_date.lunar_day).date()
+              else:
+                  birthday_date = datetime.strptime(birthday, '%Y-%m-%d').date()
+
+              # 检查是否是今天或提前几天
+              if birthday_date in remind_dates:
+                  print(f"Sending email for {name}")
+                  print(f"name={name}" >> $GITHUB_ENV)
+                  print(f"send_email=true" >> $GITHUB_ENV)
+                  print(f"recipient=${{ secrets.TO_EMAIL }}" >> $GITHUB_ENV)
 
       - name: 'Send mail'
         if: env.send_email == 'true'
