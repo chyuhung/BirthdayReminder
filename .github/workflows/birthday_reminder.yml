@@ -2,7 +2,7 @@ name: Birthday Reminder
 
 on:
   schedule:
-    - cron: '0 9 * * *'  # UTC时间每天上午9点触发
+    - cron: '20 9 * * *'  # UTC时间每天上午9点20触发
 
 jobs:
   send_birthday_email:
