@@ -32,7 +32,7 @@ def check_birthdays():
         if lunar:
             year, month, day = map(int, birthday.split("-"))
             # 农历年特殊处理，需要传入正确的农历年（春节分割），才能正确转换成公历日期
-            solar_date = ZhDate(year, month, day).to_datetime().date()
+            solar_date = ZhDate(today.year, month, day).to_datetime().date()
         else:
             solar_date = datetime.strptime(birthday, "%Y-%m-%d").date()
 
