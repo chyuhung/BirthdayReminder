@@ -1,7 +1,9 @@
 import json
+import os
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo  # Python 3.9+ 建议使用 zoneinfo 而不是 timezone
 from zhdate import ZhDate
+
 
 def check_birthdays():
     # 创建东八区时区（UTC+8）
