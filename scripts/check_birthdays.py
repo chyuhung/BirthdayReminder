@@ -59,7 +59,7 @@ def check_birthdays():
             elif 0 == birthday_solar - today:
                 today_names.append(name)
 
-    将结果写入环境变量，供后续步骤使用
+    # 将结果写入环境变量，供后续步骤使用
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
         if advance_names:
             print(f'SEND_ADVANCE_EMAIL=true', file=fh)
