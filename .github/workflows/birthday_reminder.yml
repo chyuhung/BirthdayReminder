@@ -40,17 +40,22 @@ jobs:
           subject: "${{ steps.birthdays.outputs.ADVANCE_NAMES }} 的生日即将到来！"
           html_body: |
             <div style="font-family: 'Arial', sans-serif; margin: 0 auto; max-width: 600px; background-color: #f0fff0; padding: 25px; border-radius: 10px; box-shadow: 0 3px 5px rgba(0,0,0,0.1);">
-              <h1 style="color: #4caf50; text-align: center;">🔔 生日即将来临</h1>
-              <p style="font-size: 17px; color: #333333; line-height: 1.6;">
-                以下亲友的生日将在未来几天内到来：<strong>${{ steps.birthdays.outputs.ADVANCE_NAMES }}</strong>。这是一个完美的时机来计划并准备好你的心意。
+              <h1 style="color: #4caf50; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 生日即将来临 🎉</h1>
+              <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
+                以下亲友的生日将在未来几天内到来：<strong style="color: #4caf50;">${{ steps.birthdays.outputs.ADVANCE_NAMES }}</strong>。这是一个完美的时机来计划并准备好你的心意。
               </p>
-              <p style="font-size: 16px; color: #555555; line-height: 1.6;">
+              <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
                 不论是一条温馨的信息，还是一份特别的礼物，你的提前准备都能让对方感受到你的关心与重视。
               </p>
-              <p style="font-size: 16px; color: #555555; line-height: 1.6;">
+              <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 20px;">
                 让我们共同期待他们的新一岁更加精彩！🎉🎈
               </p>
-              <p style="text-align: right; font-style: italic; color: #777777;">
+              <div style="text-align: center; margin-top: 25px;">
+                <a href="mailto:${{ secrets.TO_EMAIL }}" style="background-color: #4caf50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                  立即发送祝福
+                </a>
+              </div>
+              <p style="text-align: right; font-style: italic; color: #777777; margin-top: 25px;">
                 提前准备，传递温暖。
               </p>
             </div>
@@ -68,17 +73,22 @@ jobs:
           subject: "今天是 ${{ steps.birthdays.outputs.TODAY_NAMES }} 的生日！"
           html_body: |
             <div style="font-family: 'Arial', sans-serif; margin: 0 auto; max-width: 600px; background-color: #fff9e5; padding: 25px; border-radius: 10px; box-shadow: 0 3px 5px rgba(0,0,0,0.1);">
-              <h1 style="color: #ff8c00; text-align: center;">🔔 生日提醒</h1>
-              <p style="font-size: 17px; color: #333333; line-height: 1.6;">
-                今天是 <strong>${{ steps.birthdays.outputs.TODAY_NAMES }}</strong> 的生日！别让这个特殊的日子悄然溜走。
+              <h1 style="color: #ff8c00; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 生日提醒 🎉</h1>
+              <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
+                今天是 <strong style="color: #ff8c00;">${{ steps.birthdays.outputs.TODAY_NAMES }}</strong> 的生日！别让这个特殊的日子悄然溜走。
               </p>
-              <p style="font-size: 16px; color: #555555; line-height: 1.6;">
+              <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
                 趁现在，给${{ steps.birthdays.outputs.TODAY_NAMES }}送去你诚挚的祝福吧。无论是简单的问候还是精心准备的礼物，你的祝福都会使他们的一天更加特别。
               </p>
-              <p style="font-size: 16px; color: #555555; line-height: 1.6;">
+              <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 20px;">
                 愿他们的新一岁充满快乐、健康与成功！🎉🎈
               </p>
-              <p style="text-align: right; font-style: italic; color: #777777;">
+              <div style="text-align: center; margin-top: 25px;">
+                <a href="mailto:${{ secrets.TO_EMAIL }}" style="background-color: #ff8c00; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                  立即发送祝福
+                </a>
+              </div>
+              <p style="text-align: right; font-style: italic; color: #777777; margin-top: 25px;">
                 记住，小小的关怀可以带来大大的温暖。
               </p>
             </div>
