@@ -26,7 +26,7 @@ jobs:
           # pip3 install zhdate # 由于项目作者未推送pypi，使用源代码安装修复bug
           git clone https://github.com/CutePandaSh/zhdate.git
           cd zhdate
-          python3 setup.py install
+          pip3 install .
 
       - name: Run birthday check script
         id: birthdays
