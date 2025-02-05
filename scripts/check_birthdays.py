@@ -21,11 +21,18 @@ def check_birthdays():
     today_lunar = ZhDate.from_datetime(today_naive)
     print(f"今天的农历日期: {today_lunar}")
     
-    # 打开并读取包含生日信息的JSON文件
-    with open("birthdays.json") as f:
-        config = json.load(f)
-        reminder_days = config["reminder_days"]
-        birthdays = config["birthdays"]
+    # # 打开并读取包含生日信息的JSON文件
+    # with open("birthdays.json") as f:
+    #     config = json.load(f)
+    #     reminder_days = config["reminder_days"]
+    #     birthdays = config["birthdays"]
+    
+    # 读取从 Secret 中获取的 JSON 数据
+    birthdays_json = os.environ['BIRTHDAYS_JSON']
+    # 加载 JSON 数据
+    config = json.loads(birthdays_json)
+    reminder_days = config["reminder_days"]
+    birthdays = config["birthdays"]
 
     remind_dates = [today + timedelta(days=i) for i in range(reminder_days + 1)]
     advance_names = []
@@ -75,7 +82,7 @@ def check_birthdays():
         else:
             print(f'SEND_TODAY_EMAIL=false', file=fh)
 
-    # 直接打印结果测试
+    # # 直接打印结果测试
     # if advance_names:
     #     print(f'SEND_ADVANCE_EMAIL=true')
     #     print(f'ADVANCE_NAMES={"、".join(advance_names)}')
