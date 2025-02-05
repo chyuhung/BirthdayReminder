@@ -75,7 +75,7 @@ def check_birthdays():
         else:
             print(f'SEND_TODAY_EMAIL=false', file=fh)
 
-    # # 直接打印结果测试
+    # 直接打印结果测试
     # if advance_names:
     #     print(f'SEND_ADVANCE_EMAIL=true')
     #     print(f'ADVANCE_NAMES={"、".join(advance_names)}')

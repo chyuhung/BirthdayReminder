@@ -29,8 +29,13 @@ jobs:
         id: birthdays
         run: python3 scripts/check_birthdays.py
 
+      - name: Debug outputs
+        run: |
+          echo "SEND_ADVANCE_EMAIL: ${{ steps.birthdays.outputs.SEND_ADVANCE_EMAIL }}"
+          echo "SEND_TODAY_EMAIL: ${{ steps.birthdays.outputs.SEND_TODAY_EMAIL }}"
+
       - name: 'Send advance mail'
-        if: ${{ steps.birthdays.outputs.SEND_ADVANCE_EMAIL }} == 'true'
+        if: ${{ steps.birthdays.outputs.SEND_ADVANCE_EMAIL }} == true
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.exmail.qq.com
@@ -63,7 +68,7 @@ jobs:
           from: GitHub Actions
 
       - name: 'Send today mail'
-        if: ${{ steps.birthdays.outputs.SEND_TODAY_EMAIL }} == 'true'
+        if: ${{ steps.birthdays.outputs.SEND_TODAY_EMAIL }} == true
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.exmail.qq.com
