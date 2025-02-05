@@ -11,6 +11,9 @@ on:
   schedule:
     - cron: '20 1 * * *'  # UTC时间凌晨1点20分触发，即东八区上午9点20分
 
+env:
+  BIRTHDAYS_JSON: ${{ secrets.BIRTHDAYS_JSON }}
+
 jobs:
   send_birthday_email:
     runs-on: ubuntu-latest
