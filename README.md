@@ -19,7 +19,7 @@
    - 每天定时触发（使用 cron 表达式）。
 
 2. **生日检查**：
-   - 从 `birthdays.json` 文件中读取生日数据，包括农历和阳历生日。
+   - 从 GitHub Secrets 中读取生日数据，而不是直接从文件中读取。
    - 检查当天和接下来几天的生日。
 
 3. **发送邮件**：
@@ -30,32 +30,35 @@
 ### 先决条件
 
 1. 确保您有一个 GitHub 仓库。
-2. 准备一个 `birthdays.json` 文件，格式如下：
-
-   json
-   {
-     "reminder_days": 3,
-     "birthdays": [
-       {
-         "name": "农历今天测试Tom",
-         "birthday": "2024-12-26",
-         "lunar": true
-       },
-       {
-         "name": "新历今天测试Bob",
-         "birthday": "2025-01-25",
-         "lunar": false
-       }
-     ]
-   }
-   
-
-3. 在 GitHub 仓库设置中添加以下 Secrets：
+2. 在 GitHub 仓库设置中添加以下 Secrets：
+   - **BIRTHDAYS_JSON**: 包含生日数据的 JSON 字符串（格式见下）。
    - **EMAIL**: 您的邮件地址。
    - **EMAIL_PASSWORD**: 您的邮件密码或应用程序密码。
    - **TO_EMAIL**: 收件人的邮箱地址（可以是多个，需用逗号分隔）。
 
    *Tips: 推荐使用腾讯企业邮箱（使用密码而非授权码，避免过期无法发送邮件）。*
+
+### JSON 文件格式
+
+以下是 `birthdays.json` 的示例格式：
+
+```json
+{
+  "reminder_days": 5,
+  "birthdays": [
+    {
+      "name": "农历Tom",
+      "birthday": "2024-12-26",
+      "lunar": true
+    },
+    {
+      "name": "新历Bob",
+      "birthday": "2025-01-25",
+      "lunar": false
+    }
+  ]
+}
+```
 
 ### 工作流配置
 
@@ -74,9 +77,10 @@
 ## 代码结构
 
 - **`check_birthdays.py`**: 主要逻辑代码，负责检查生日并输出需要发送邮件的人员名单。
-- **`birthdays.json`**: 存储生日信息的配置文件，包括每个人的姓名、生日和是否为农历生日。
+- **`birthdays.json`**: 存储生日信息的配置文件（数据从 Secrets 中读取）。
 
 ## 注意事项
 
 - 确保日期格式正确，农历日期需使用正确的农历年份。
 - 本项目使用 `zhdate` 库进行农历转换，请确保已正确安装依赖。
+- 请遵循 GitHub Secrets 的使用规范，确保敏感信息的安全性。

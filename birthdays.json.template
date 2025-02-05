@@ -1,0 +1,15 @@
+{
+  "reminder_days": 5,
+  "birthdays": [
+    {
+      "name": "农历Tom",
+      "birthday": "2024-12-26",
+      "lunar": true
+    },
+    {
+      "name": "新历Bob",
+      "birthday": "2025-01-25",
+      "lunar": false
+    }
+  ]
+}
