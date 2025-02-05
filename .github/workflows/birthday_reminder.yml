@@ -4,12 +4,12 @@ on:
   workflow_dispatch:  # 手动触发工作流
   push:
     branches:
-      - main  # 指定监控的分支
+      - main
   pull_request:
     branches:
-      - main  # 监控对 main 分支的 PR
+      - main
   schedule:
-    - cron: '20 1 * * *'  # UTC时间凌晨1点20分触发，相当于东八区上午9点20分
+    - cron: '20 1 * * *'  # UTC时间凌晨1点20分触发，即东八区上午9点20分
 
 jobs:
   send_birthday_email:
@@ -23,7 +23,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install python3 python3-pip -y
-          pip3 install zhdate
+          # pip3 install zhdate # 由于项目作者未推送pypi，使用源代码安装修复bug
+          git clone https://github.com/CutePandaSh/zhdate.git
+          cd zhdate
+          python3 setup.py install
 
       - name: Run birthday check script
         id: birthdays

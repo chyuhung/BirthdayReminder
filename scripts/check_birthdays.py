@@ -1,7 +1,7 @@
 import json
 import os
 from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo  # Python 3.9+ 建议使用 zoneinfo 而不是 timezone
+from zoneinfo import ZoneInfo
 from zhdate import ZhDate
 
 
