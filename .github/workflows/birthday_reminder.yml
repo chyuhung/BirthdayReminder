@@ -40,7 +40,7 @@ jobs:
 
       - name: Debug outputs
         run: |
-          echo "BIRTHDAY_NAMES: ${{ steps.birthdays.outputs.BIRTHDAY_NAMES }}"
+          echo "BIRTHDAY_NAMES: ${{ secrets.BIRTHDAYS_JSON }}"
           echo "SEND_ADVANCE_EMAIL: ${{ steps.birthdays.outputs.SEND_ADVANCE_EMAIL }}"
           echo "SEND_TODAY_EMAIL: ${{ steps.birthdays.outputs.SEND_TODAY_EMAIL }}"
 
