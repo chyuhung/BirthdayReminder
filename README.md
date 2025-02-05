@@ -40,7 +40,7 @@
 
 ### JSON 文件格式
 
-以下是 `birthdays.json` 的示例格式：
+以下是 `BIRTHDAYS_JSON` 的示例格式：
 
 ```json
 {
@@ -77,7 +77,7 @@
 ## 代码结构
 
 - **`check_birthdays.py`**: 主要逻辑代码，负责检查生日并输出需要发送邮件的人员名单。
-- **`birthdays.json`**: 存储生日信息的配置文件（数据从 Secrets 中读取）。
+- **`BIRTHDAYS_JSON`**: 存储生日信息的配置文件（数据从 Secrets 中读取）。
 
 ## 注意事项
 

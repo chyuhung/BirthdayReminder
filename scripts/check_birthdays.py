@@ -22,7 +22,7 @@ def check_birthdays():
     print(f"今天的农历日期: {today_lunar}")
     
     # # 打开并读取包含生日信息的JSON文件
-    # with open("birthdays.json") as f:
+    # with open("BIRTHDAYS_JSON.template") as f:
     #     config = json.load(f)
     #     reminder_days = config["reminder_days"]
     #     birthdays = config["birthdays"]
