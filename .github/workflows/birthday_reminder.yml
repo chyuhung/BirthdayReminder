@@ -63,7 +63,7 @@ jobs:
                 让我们共同期待他们的新一岁更加精彩！🎉🎈
               </p>
               <div style="text-align: center; margin-top: 25px;">
-                <a href="mailto:${{ secrets.TO_EMAIL }}" style="background-color: #4caf50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                <a href="mailto:" style="background-color: #4caf50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
                   立即发送祝福
                 </a>
               </div>
@@ -96,7 +96,7 @@ jobs:
                 愿他们的新一岁充满快乐、健康与成功！🎉🎈
               </p>
               <div style="text-align: center; margin-top: 25px;">
-                <a href="mailto:${{ secrets.TO_EMAIL }}" style="background-color: #ff8c00; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                <a href="mailto:" style="background-color: #ff8c00; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
                   立即发送祝福
                 </a>
               </div>
