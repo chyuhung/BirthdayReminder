@@ -22,9 +22,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Write birthdays.json from secrets
-        run: echo "${{ secrets.BIRTHDAYS_JSON }}" > birthdays.json
-
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -40,7 +37,7 @@ jobs:
 
       - name: Debug outputs
         run: |
-          echo "BIRTHDAY_NAMES: ${{ secrets.BIRTHDAYS_JSON }}"
+          echo "BIRTHDAYS_JSON: $BIRTHDAYS_JSON"
           echo "SEND_ADVANCE_EMAIL: ${{ steps.birthdays.outputs.SEND_ADVANCE_EMAIL }}"
           echo "SEND_TODAY_EMAIL: ${{ steps.birthdays.outputs.SEND_TODAY_EMAIL }}"
 
