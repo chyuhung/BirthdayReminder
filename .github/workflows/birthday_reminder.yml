@@ -9,7 +9,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '20 1 * * *'  # UTC时间凌晨1点20分触发，即东八区上午9点20分
+    - cron: '20 0 * * *'  # UTC时间凌晨0点20分触发
 
 env:
   BIRTHDAYS_JSON: ${{ secrets.BIRTHDAYS_JSON }}
@@ -54,7 +54,7 @@ jobs:
             <div style="font-family: 'Arial', sans-serif; margin: 0 auto; max-width: 600px; background-color: #f0fff0; padding: 25px; border-radius: 10px; box-shadow: 0 3px 5px rgba(0,0,0,0.1);">
               <h1 style="color: #4caf50; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 生日即将来临 🎉</h1>
               <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
-                以下亲友的生日将在未来几天内到来：<strong style="color: #4caf50;">${{ steps.birthdays.outputs.ADVANCE_NAMES }}</strong>。这是一个完美的时机来计划并准备好你的心意。
+                以下亲友的生日将在未来${{ steps.birthdays.outputs.REMINDER_DAYS }}天内到来：<strong style="color: #4caf50;">${{ steps.birthdays.outputs.ADVANCE_NAMES }}</strong>。这是一个完美的时机来计划并准备好你的心意。
               </p>
               <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
                 不论是一条温馨的信息，还是一份特别的礼物，你的提前准备都能让对方感受到你的关心与重视。

@@ -21,12 +21,6 @@ def check_birthdays():
     today_lunar = ZhDate.from_datetime(today_naive)
     print(f"今天的农历日期: {today_lunar}")
     
-    # # 打开并读取包含生日信息的JSON文件
-    # with open("BIRTHDAYS_JSON.template") as f:
-    #     config = json.load(f)
-    #     reminder_days = config["reminder_days"]
-    #     birthdays = config["birthdays"]
-    
     # 读取从 Secret 中获取的 JSON 数据
     birthdays_json = os.environ['BIRTHDAYS_JSON']
     # 加载 JSON 数据
@@ -37,6 +31,7 @@ def check_birthdays():
     remind_dates = [today + timedelta(days=i) for i in range(reminder_days + 1)]
     advance_names = []
     today_names = []
+    days_difference = -1
 
     for entry in birthdays:
         name = entry["name"]
@@ -47,29 +42,26 @@ def check_birthdays():
             lunar_year, lunar_month, lunar_day = map(int, birthday.split("-"))
             # 直接用今天的农历日期进行判断
             birthday_lunar = ZhDate(today_lunar.lunar_year,lunar_month,lunar_day)
-            if  0 > birthday_lunar - today_lunar:
+            if birthday_lunar - today_lunar < 0:
                 # 如果农历生日已经过去，则计算下一年
                 birthday_lunar = ZhDate(today_lunar.lunar_year + 1, lunar_month, lunar_day)
-                if birthday_lunar - today_lunar < reminder_days+1:
-                    advance_names.append(name)
-            elif  0 < birthday_lunar - today_lunar < reminder_days+1:
-                advance_names.append(name)
-            elif 0 == birthday_lunar - today_lunar:
-                today_names.append(name)
+            days_difference = birthday_lunar - today_lunar
         else:
             birthday_solar = datetime.strptime(birthday, "%Y-%m-%d").date()
-            if 0 > birthday_solar - today:
+            if birthday_solar - today < 0:
                 # 如果公历生日已经过去，则计算下一年
                 birthday_solar = birthday_solar.replace(year=today.year + 1)
-                if birthday_solar - today < reminder_days+1:
-                    advance_names.append(name)
-            elif 0 < birthday_solar - today < reminder_days+1:
-                advance_names.append(name)
-            elif 0 == birthday_solar - today:
-                today_names.append(name)
+            days_difference = birthday_solar - today
+
+        # 统一处理逻辑
+        if days_difference == reminder_days:
+            advance_names.append(name)
+        elif days_difference == 0:
+            today_names.append(name)
 
     # 将结果写入环境变量，供后续步骤使用
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        print(f'REMINDER_DAYS={reminder_days}', file=fh)
         if advance_names:
             print(f'SEND_ADVANCE_EMAIL=true', file=fh)
             print(f'ADVANCE_NAMES={"、".join(advance_names)}', file=fh)
@@ -81,19 +73,6 @@ def check_birthdays():
             print(f'TODAY_NAMES={"、".join(today_names)}', file=fh)
         else:
             print(f'SEND_TODAY_EMAIL=false', file=fh)
-
-    # # 直接打印结果测试
-    # if advance_names:
-    #     print(f'SEND_ADVANCE_EMAIL=true')
-    #     print(f'ADVANCE_NAMES={"、".join(advance_names)}')
-    # else:
-    #     print(f'SEND_ADVANCE_EMAIL=false')
-
-    # if today_names:
-    #     print(f'SEND_TODAY_EMAIL=true')
-    #     print(f'TODAY_NAMES={"、".join(today_names)}')
-    # else:
-    #     print(f'SEND_TODAY_EMAIL=false')
 
 if __name__ == "__main__":
     check_birthdays()
