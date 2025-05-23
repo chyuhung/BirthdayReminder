@@ -50,59 +50,29 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "${{ steps.birthdays.outputs.ADVANCE_NAMES }} 的生日即将到来！"
+          subject: "${{ steps.birthdays.outputs.REMINDER_DAYS }}天后是${{ steps.birthdays.outputs.ADVANCE_NAMES }}的生日"
           html_body: |
             <div style="font-family: 'Arial', sans-serif; margin: 0 auto; max-width: 600px; background-color: #f0fff0; padding: 25px; border-radius: 10px; box-shadow: 0 3px 5px rgba(0,0,0,0.1);">
-              <h1 style="color: #4caf50; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 生日即将来临 🎉</h1>
+              <h1 style="color: #4caf50; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 生日提前提醒 🎉</h1>
               <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
-                以下亲友的生日将在未来${{ steps.birthdays.outputs.REMINDER_DAYS }}天内到来：<strong style="color: #4caf50;">${{ steps.birthdays.outputs.ADVANCE_NAMES }}</strong>。这是一个完美的时机来计划并准备好你的心意。
+                <strong style="color: #4caf50;">${{ steps.birthdays.outputs.REMINDER_DAYS }}天后</strong>是以下亲友的生日：
               </p>
+              <ul style="font-size: 16px; color: #333333; line-height: 1.6; margin-bottom: 15px; padding-left: 20px;">
+                ${{ steps.birthdays.outputs.ADVANCE_NAMES.split('、').map(name => `<li>${name}</li>`).join('') }}
+              </ul>
               <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
-                不论是一条温馨的信息，还是一份特别的礼物，你的提前准备都能让对方感受到你的关心与重视。
+                现在是计划祝福的好时机！可以准备一份特别的礼物或温馨的问候，让他们的生日更加难忘。
               </p>
               <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 20px;">
-                让我们共同期待他们的新一岁更加精彩！🎉🎈
+                提前准备，送上满满的祝福！🎈
               </p>
               <div style="text-align: center; margin-top: 25px;">
                 <a href="mailto:" style="background-color: #4caf50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
-                  立即发送祝福
+                  准备祝福
                 </a>
               </div>
               <p style="text-align: right; font-style: italic; color: #777777; margin-top: 25px;">
-                提前准备，传递温暖。
-              </p>
-            </div>
-          to: ${{ secrets.TO_EMAIL }}
-          from: GitHub Actions
-
-      - name: 'Send today mail'
-        if: ${{ steps.birthdays.outputs.SEND_TODAY_EMAIL == 'true' }}
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.exmail.qq.com
-          server_port: 465
-          username: ${{ secrets.EMAIL }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "今天是 ${{ steps.birthdays.outputs.TODAY_NAMES }} 的生日！"
-          html_body: |
-            <div style="font-family: 'Arial', sans-serif; margin: 0 auto; max-width: 600px; background-color: #fff9e5; padding: 25px; border-radius: 10px; box-shadow: 0 3px 5px rgba(0,0,0,0.1);">
-              <h1 style="color: #ff8c00; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 生日提醒 🎉</h1>
-              <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
-                今天是 <strong style="color: #ff8c00;">${{ steps.birthdays.outputs.TODAY_NAMES }}</strong> 的生日！别让这个特殊的日子悄然溜走。
-              </p>
-              <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
-                趁现在，给${{ steps.birthdays.outputs.TODAY_NAMES }}送去你诚挚的祝福吧。无论是简单的问候还是精心准备的礼物，你的祝福都会使他们的一天更加特别。
-              </p>
-              <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 20px;">
-                愿他们的新一岁充满快乐、健康与成功！🎉🎈
-              </p>
-              <div style="text-align: center; margin-top: 25px;">
-                <a href="mailto:" style="background-color: #ff8c00; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
-                  立即发送祝福
-                </a>
-              </div>
-              <p style="text-align: right; font-style: italic; color: #777777; margin-top: 25px;">
-                记住，小小的关怀可以带来大大的温暖。
+                提前筹划，温暖相伴
               </p>
             </div>
           to: ${{ secrets.TO_EMAIL }}
@@ -116,26 +86,65 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "明天是 ${{ steps.birthdays.outputs.TOMORROW_NAMES }} 的生日！"
+          subject: "明天是${{ steps.birthdays.outputs.TOMORROW_NAMES }}的生日"
           html_body: |
             <div style="font-family: 'Arial', sans-serif; margin: 0 auto; max-width: 600px; background-color: #e6f3ff; padding: 25px; border-radius: 10px; box-shadow: 0 3px 5px rgba(0,0,0,0.1);">
-              <h1 style="color: #1e90ff; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 生日提醒 🎉</h1>
+              <h1 style="color: #1e90ff; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 明天生日提醒 🎉</h1>
               <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
-                明天是 <strong style="color: #1e90ff;">${{ steps.birthdays.outputs.TOMORROW_NAMES }}</strong> 的生日！是时候送出一份特别的祝福啦！
+                <strong style="color: #1e90ff;">明天</strong>是以下亲友的生日：
               </p>
+              <ul style="font-size: 16px; color: #333333; line-height: 1.6; margin-bottom: 15px; padding-left: 20px;">
+                ${{ steps.birthdays.outputs.TOMORROW_NAMES.split('、').map(name => `<li>${name}</li>`).join('') }}
+              </ul>
               <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
-                无论是一份礼物，还是一段温馨的祝福，你的用心都会让他们的生日更加难忘。
+                最后一天的准备时间！快为他们准备一份特别的祝福或礼物，让生日充满惊喜。
               </p>
               <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 20px;">
-                愿他们的生日充满欢乐与温馨！🎉🎈
+                明天将是他们的大日子，送上你的心意吧！🎈
               </p>
               <div style="text-align: center; margin-top: 25px;">
                 <a href="mailto:" style="background-color: #1e90ff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
-                  立即发送祝福
+                  准备祝福
                 </a>
               </div>
               <p style="text-align: right; font-style: italic; color: #777777; margin-top: 25px;">
-                提前一天，温暖加倍。
+                提前祝福，温暖加倍
+              </p>
+            </div>
+          to: ${{ secrets.TO_EMAIL }}
+          from: GitHub Actions
+
+      - name: 'Send today mail'
+        if: ${{ steps.birthdays.outputs.SEND_TODAY_EMAIL == 'true' }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.exmail.qq.com
+          server_port: 465
+          username: ${{ secrets.EMAIL }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "今天是${{ steps.birthdays.outputs.TODAY_NAMES }}的生日"
+          html_body: |
+            <div style="font-family: 'Arial', sans-serif; margin: 0 auto; max-width: 600px; background-color: #fff9e5; padding: 25px; border-radius: 10px; box-shadow: 0 3px 5px rgba(0,0,0,0.1);">
+              <h1 style="color: #ff8c00; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 今天生日快乐 🎉</h1>
+              <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
+                <strong style="color: #ff8c00;">今天</strong>是以下亲友的生日：
+              </p>
+              <ul style="font-size: 16px; color: #333333; line-height: 1.6; margin-bottom: 15px; padding-left: 20px;">
+                ${{ steps.birthdays.outputs.TODAY_NAMES.split('、').map(name => `<li>${name}</li>`).join('') }}
+              </ul>
+              <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
+                今天是他们的大日子！快送上你的祝福，无论是温馨的问候还是特别的礼物，都会让这一天更加难忘。
+              </p>
+              <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 20px;">
+                愿他们的生日充满欢乐、温暖与幸福！🎈
+              </p>
+              <div style="text-align: center; margin-top: 25px;">
+                <a href="mailto:" style="background-color: #ff8c00; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                  发送祝福
+                </a>
+              </div>
+              <p style="text-align: right; font-style: italic; color: #777777; margin-top: 25px;">
+                生日当天，祝福最真
               </p>
             </div>
           to: ${{ secrets.TO_EMAIL }}
