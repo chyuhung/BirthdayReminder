@@ -31,6 +31,7 @@ def check_birthdays():
     remind_dates = [today + timedelta(days=i) for i in range(reminder_days + 1)]
     advance_names = []
     today_names = []
+    tomorrow_names = []
     days_difference = -1
 
     for entry in birthdays:
@@ -58,6 +59,8 @@ def check_birthdays():
             advance_names.append(name)
         elif days_difference == 0:
             today_names.append(name)
+        elif days_difference == 1:
+            tomorrow_names.append(name)
 
     # 将结果写入环境变量，供后续步骤使用
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
@@ -73,6 +76,12 @@ def check_birthdays():
             print(f'TODAY_NAMES={"、".join(today_names)}', file=fh)
         else:
             print(f'SEND_TODAY_EMAIL=false', file=fh)
+
+        if tomorrow_names:
+            print(f'SEND_TOMORROW_EMAIL=true', file=fh)
+            print(f'TOMORROW_NAMES={"、".join(tomorrow_names)}', file=fh)
+        else:
+            print(f'SEND_TOMORROW_EMAIL=false', file=fh)
 
 if __name__ == "__main__":
     check_birthdays()

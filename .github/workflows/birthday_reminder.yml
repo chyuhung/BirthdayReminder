@@ -40,6 +40,7 @@ jobs:
           echo "BIRTHDAYS_JSON: $BIRTHDAYS_JSON"
           echo "SEND_ADVANCE_EMAIL: ${{ steps.birthdays.outputs.SEND_ADVANCE_EMAIL }}"
           echo "SEND_TODAY_EMAIL: ${{ steps.birthdays.outputs.SEND_TODAY_EMAIL }}"
+          echo "SEND_TOMORROW_EMAIL: ${{ steps.birthdays.outputs.SEND_TOMORROW_EMAIL }}"
 
       - name: 'Send advance mail'
         if: ${{ steps.birthdays.outputs.SEND_ADVANCE_EMAIL == 'true' }}
@@ -102,6 +103,39 @@ jobs:
               </div>
               <p style="text-align: right; font-style: italic; color: #777777; margin-top: 25px;">
                 记住，小小的关怀可以带来大大的温暖。
+              </p>
+            </div>
+          to: ${{ secrets.TO_EMAIL }}
+          from: GitHub Actions
+
+      - name: 'Send tomorrow mail'
+        if: ${{ steps.birthdays.outputs.SEND_TOMORROW_EMAIL == 'true' }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.exmail.qq.com
+          server_port: 465
+          username: ${{ secrets.EMAIL }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "明天是 ${{ steps.birthdays.outputs.TOMORROW_NAMES }} 的生日！"
+          html_body: |
+            <div style="font-family: 'Arial', sans-serif; margin: 0 auto; max-width: 600px; background-color: #e6f3ff; padding: 25px; border-radius: 10px; box-shadow: 0 3px 5px rgba(0,0,0,0.1);">
+              <h1 style="color: #1e90ff; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 生日提醒 🎉</h1>
+              <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
+                明天是 <strong style="color: #1e90ff;">${{ steps.birthdays.outputs.TOMORROW_NAMES }}</strong> 的生日！是时候送出一份特别的祝福啦！
+              </p>
+              <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
+                无论是一份礼物，还是一段温馨的祝福，你的用心都会让他们的生日更加难忘。
+              </p>
+              <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 20px;">
+                愿他们的生日充满欢乐与温馨！🎉🎈
+              </p>
+              <div style="text-align: center; margin-top: 25px;">
+                <a href="mailto:" style="background-color: #1e90ff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                  立即发送祝福
+                </a>
+              </div>
+              <p style="text-align: right; font-style: italic; color: #777777; margin-top: 25px;">
+                提前一天，温暖加倍。
               </p>
             </div>
           to: ${{ secrets.TO_EMAIL }}
