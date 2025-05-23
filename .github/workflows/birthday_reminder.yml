@@ -56,10 +56,8 @@ jobs:
               <h1 style="color: #4caf50; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 生日提前提醒 🎉</h1>
               <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
                 <strong style="color: #4caf50;">${{ steps.birthdays.outputs.REMINDER_DAYS }}天后</strong>是以下亲友的生日：
+                <span style="font-weight: bold; color: #4caf50;">${{ steps.birthdays.outputs.ADVANCE_NAMES }}</span>
               </p>
-              <ul style="font-size: 16px; color: #333333; line-height: 1.6; margin-bottom: 15px; padding-left: 20px;">
-                ${{ steps.birthdays.outputs.ADVANCE_NAMES.split('、').map(name => `<li>${name}</li>`).join('') }}
-              </ul>
               <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
                 现在是计划祝福的好时机！可以准备一份特别的礼物或温馨的问候，让他们的生日更加难忘。
               </p>
@@ -92,10 +90,8 @@ jobs:
               <h1 style="color: #1e90ff; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 明天生日提醒 🎉</h1>
               <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
                 <strong style="color: #1e90ff;">明天</strong>是以下亲友的生日：
+                <span style="font-weight: bold; color: #1e90ff;">${{ steps.birthdays.outputs.TOMORROW_NAMES }}</span>
               </p>
-              <ul style="font-size: 16px; color: #333333; line-height: 1.6; margin-bottom: 15px; padding-left: 20px;">
-                ${{ steps.birthdays.outputs.TOMORROW_NAMES.split('、').map(name => `<li>${name}</li>`).join('') }}
-              </ul>
               <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
                 最后一天的准备时间！快为他们准备一份特别的祝福或礼物，让生日充满惊喜。
               </p>
@@ -128,10 +124,8 @@ jobs:
               <h1 style="color: #ff8c00; text-align: center; font-size: 28px; margin-bottom: 20px;">🎉 今天生日快乐 🎉</h1>
               <p style="font-size: 17px; color: #333333; line-height: 1.6; margin-bottom: 15px;">
                 <strong style="color: #ff8c00;">今天</strong>是以下亲友的生日：
+                <span style="font-weight: bold; color: #ff8c00;">${{ steps.birthdays.outputs.TODAY_NAMES }}</span>
               </p>
-              <ul style="font-size: 16px; color: #333333; line-height: 1.6; margin-bottom: 15px; padding-left: 20px;">
-                ${{ steps.birthdays.outputs.TODAY_NAMES.split('、').map(name => `<li>${name}</li>`).join('') }}
-              </ul>
               <p style="font-size: 16px; color: #555555; line-height: 1.6; margin-bottom: 15px;">
                 今天是他们的大日子！快送上你的祝福，无论是温馨的问候还是特别的礼物，都会让这一天更加难忘。
               </p>
