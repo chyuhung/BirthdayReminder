@@ -9,7 +9,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '20 0 * * *'  # UTC时间凌晨0点20分触发
+    - cron: '11 0 * * *'  # UTC时间凌晨0点11分触发
 
 env:
   BIRTHDAYS_JSON: ${{ secrets.BIRTHDAYS_JSON }}
