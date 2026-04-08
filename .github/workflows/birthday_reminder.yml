@@ -8,8 +8,8 @@ on:
   pull_request:
     branches:
       - main
-  schedule:
-    - cron: '6 1 * * *'  # UTC时间凌晨1点6分触发
+  # schedule:  # 由于执行延迟高已弃用，可使用其他云函数定时触发
+    # - cron: '6 1 * * *'  # UTC时间凌晨1点6分触发
 
 env:
   BIRTHDAYS_JSON: ${{ secrets.BIRTHDAYS_JSON }}
