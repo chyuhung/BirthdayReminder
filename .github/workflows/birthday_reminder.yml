@@ -2,17 +2,12 @@ name: BirthdayReminder
 
 on:
   workflow_dispatch:  # 手动触发工作流
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
   # schedule:  # 由于执行延迟高已弃用，可使用其他云函数定时触发
     # - cron: '6 1 * * *'  # UTC时间凌晨1点6分触发
 
 env:
   BIRTHDAYS_JSON: ${{ secrets.BIRTHDAYS_JSON }}
+  PROJECT_NAME: BirthdayReminder
 
 jobs:
   send_birthday_email:
@@ -22,14 +17,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Run tests
+        run: python3 -m unittest discover -s tests -v
+
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install python3 python3-pip -y
-          # pip3 install zhdate # 由于项目作者未推送pypi, 使用源代码安装修复bug
-          git clone https://github.com/CutePandaSh/zhdate.git
-          cd zhdate
-          pip3 install .
+          python3 -m pip install --upgrade pip
+          python3 -m pip install git+https://github.com/CutePandaSh/zhdate.git
 
       - name: Run birthday check script
         id: birthdays
@@ -37,7 +37,6 @@ jobs:
 
       - name: Debug outputs
         run: |
-          echo "BIRTHDAYS_JSON: $BIRTHDAYS_JSON"
           echo "SEND_ADVANCE_EMAIL: ${{ steps.birthdays.outputs.SEND_ADVANCE_EMAIL }}"
           echo "SEND_TODAY_EMAIL: ${{ steps.birthdays.outputs.SEND_TODAY_EMAIL }}"
           echo "SEND_TOMORROW_EMAIL: ${{ steps.birthdays.outputs.SEND_TOMORROW_EMAIL }}"
@@ -74,7 +73,7 @@ jobs:
               </p>
             </div>
           to: ${{ secrets.TO_EMAIL }}
-          from: GitHub Actions
+          from: ${{ env.PROJECT_NAME }}
 
       - name: 'Send tomorrow mail'
         if: ${{ steps.birthdays.outputs.SEND_TOMORROW_EMAIL == 'true' }}
@@ -108,7 +107,7 @@ jobs:
               </p>
             </div>
           to: ${{ secrets.TO_EMAIL }}
-          from: GitHub Actions
+          from: ${{ env.PROJECT_NAME }}
 
       - name: 'Send today mail'
         if: ${{ steps.birthdays.outputs.SEND_TODAY_EMAIL == 'true' }}
@@ -142,4 +141,4 @@ jobs:
               </p>
             </div>
           to: ${{ secrets.TO_EMAIL }}
-          from: GitHub Actions
+          from: ${{ env.PROJECT_NAME }}
